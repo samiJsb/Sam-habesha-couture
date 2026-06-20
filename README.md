@@ -1,76 +1,145 @@
-# Samuel AI Systems - Enterprise SaaS Terminal
+# Habesha Couture — Premium Modern-Heritage Ateliers & Luxury Showroom
 
-Samuel AI Systems is a production-ready, portfolio-quality full-stack web application designed for modern high-performance operations. It integrates real-time telemetry analytics, dynamic modular diagnostics, and a futuristic, high-fidelity dark terminal interface.
+Habesha Couture is a high-performance, full-stack digital flagship store engineered specifically for modern luxury fashion, traditional Ethiopian bridal apparel, Axum gold jewelry, and Awash leather accessories in Addis Ababa, Ethiopia.
 
-## 🚀 Key Features
-
-- **Full-Stack Performance Engine**: Built with a custom React 19 SPA frontend unified with a modular Node.js/Express server.
-- **Micro-telemetry Logging**: Integrated continuous diagnostics fetching layout memory, core load patterns, and mock operational socket states.
-- **Enterprise-Grade Architecture**: Designed to leverage modern design patterns for lightning-fast speeds and responsive UI workflows.
-- **Responsive Layout & Visual Motion**: Uses customized high-contrast slate aesthetics paired with clean typographic choices, custom borders, glow effects, and smooth layout entry motion.
-
-## 🛠️ System Architect Tech-Stack
-
-- **Frontend**: React 19, TypeScript, Vite, Tailwind CSS, Motion.
-- **Backend Service Layer**: Express, Node.js core.
-- **Database integrations**: Full Firebase Client setup ready for persistence workflows.
+This digital showroom integrates a highly refined editorial look, an interactive virtual VIP lounge, modular custom-size tailoring configurators (Habesha Kemis sizing specs), and a unified administrative operations pipeline tracking inventory thresholds and couture bookings.
 
 ---
 
-## 💻 Local Setup & Running Locally
+## 🎨 Immersive Design System & Interface
 
-Follow these precise steps to run this application instantly on your local environment:
+* **Cinematic Visual Cadence**: Editorial aesthetic utilizing soft, deep, high-contrast black and warm charcoal backdrops coupled with Champagne Gold (`#D4C3AC`) accents, elegant serif typography, and balanced white space.
+* **Interactive Luxury Showroom Cabinet**: A fluid virtual showroom representing our Bole Corridor VIP private dressing lounge. Desktop users can hover or click on glowing glass cases, velvet accessories on marble blocks, and gold-plated hanging rails to view the material specifications instantly.
+* **Tailoring Sizing Configurator**: Built-in sizing calculator with preset size maps or direct inputs for custom chest, waist, and height in centimeters, aligning directly to custom-tailored Ethiopian traditional wedding gowns.
+* **Administrative Suite (`/admin`)**: Operations dashboard tracking private VIP bookings, customer apparel order backlogs, stock indicators for handloom materials, and real-time business financial telemetry.
+
+---
+
+## 🛠️ Production Tech-Stack & Architecture
+
+* **Frontend Engine**: React 19 Single Page Application (SPA), fully typed in **TypeScript**, utilizing **Tailwind CSS** for fluid layouts and **Framer Motion** for premium interface transitions.
+* **Backend Layer**: Fully configured modular **Node.js/Express server** that handles secure API routes.
+* **Persistence & State**: Standard React Context Provider architecture unified with a secure production **Firebase Firestore** client database structure to preserve transaction cart records and showroom booking events.
+
+---
+
+## 🚀 Running Locally & Technical Setup
+
+Follow these exact steps to run and inspect the app locally on your workstation:
 
 ### Prerequisite Checklist
-Ensure you have the following installed on your machine:
-- [Node.js](https://nodejs.org/) (Version 18.x or above recommended)
-- [Git](https://git-scm.com/) (For code push & repository tracking)
+Make sure you have installed:
+* [Node.js](https://nodejs.org/) (Version 18.0 or above)
+* [Git](https://git-scm.com/) (For terminal repository tracking)
 
-### Step 1: Export Project Files
-1. Open the project inside the Google AI Studio UI.
-2. Navigate to the top-right settings/export menu and select **Export as ZIP** or **Push / Sync with GitHub**.
-3. Unzip the downloaded file on your local machine and open the directory inside **VS Code (Visual Studio Code)**.
+### Step 1: Open Code in VS Code
+Open your system terminal, clone/download your exported source folder, and launch inside your text editor:
+```bash
+cd habesha-couture-web
+code .
+```
 
-### Step 2: Set Up Environment Variables
-Create a file named `.env` in the root of your project directory and add the configuration fields:
+### Step 2: Establish Your Environment File
+Create a `.env` configuration file in the root folder to house local runtime specs:
 ```env
 PORT=3000
 NODE_ENV=development
-GEMINI_API_KEY=your_actual_gemini_api_key_here
 ```
 
-### Step 3: Install Project Dependencies
-Launch your VS Code Terminal (`Ctrl + ~` or `Cmd + ~`) and install all required package bundles:
+### Step 3: Install Package Bundles
 ```bash
 npm install
 ```
 
-### Step 4: Run Development Server
-Spin up the local full-stack server running Express and Vite simultaneously:
+### Step 4: Fire Up the Development Server
 ```bash
 npm run dev
 ```
+Open your web browser and navigate directly to:  
+👉 **`http://localhost:3000`**
 
-Your system terminal will boot, and you can view the live application on:
-**`http://localhost:3000`**
-
-### Step 5: Test & Validate Production Build
-To make sure your codebase is perfectly clean and compile-safe for deployment or client handoffs:
+### Step 5: Test Build Compilation
+Before distributing or pushing live, test compile consistency by building production assets:
 ```bash
-# Verify static code compilation and TS builds
 npm run build
-
-# Start the optimized enterprise-ready build
 npm run start
 ```
 
 ---
 
-## 🤝 Professional Resume Showcase Information
+## 💳 Payment Gateway Onboarding & Activation (Chapa, Telebirr, CBE Birr)
 
-If showcasing this system to senior engineers, recruiters, or technical leads, use this description structure:
+To enable live, real-money processing in Ethiopia, follow this developer integration lifecycle:
 
-### Resume Bullet Points (Full-Stack Engineer Role)
-- **Innovative Full-Stack Architecture**: Architecture of a high-fidelity system platform combining React (Vite/TS/Motion) with an Express server pipeline, reducing client-server payload latencies.
-- **Responsive Telemetry & Optimization**: Implemented custom REST-based diagnostics telemetry routines rendering live container micro-metrics, active socket simulations, and log streams in real-time.
-- **Responsive Design System**: Custom-engineered an immersive dark-slate user experience with unified border tracking, custom flex matrices, animations, and high-performance interactive grid elements via standard Tailwind.
+```
+[Customer Checkout] ➡️ [App Backend Express Proxy] ➡️ [Chapa / Telebirr SECURE API]
+                                                               ⬇️
+[Database Updated (COMPLETED)] ⬅️ [Secure Callback URL verified] ⬅️ [Payment Success]
+```
+
+### 1. Register Developer Merchant Portals
+* **Chapa Integration**: Register on Chapa's platform (`https://chapa.co`) to obtain your developmental and live `API Keys` (Secret Key & Public Key). Chapa supports seamless local mobile money checkout, including Telebirr, CBE Birr, Awash, and international cards.
+* **Telebirr Direct Integration**: Apply to Ethio Telecom's SuperApp Developer Portal to request your private RSA keys, appId, and merchantId.
+* **CBE Birr Integration**: Onboard with the Commercial Bank of Ethiopia (CBE) developer operations division to register merchant codes and secure redirect URIs.
+
+### 2. Safeguard Secrets Safely
+Add the authorized private keys into your `.env` variables. **Never upload raw production secret API keys into Public GitHub Repositories**:
+```env
+CHAPA_SECRET_KEY=CHASEC-xxxxxxxxxxxxxxxxxxxxxxxx
+TELEBIRR_API_KEY=xxxxxxxxxxxxxx
+```
+
+### 3. Handle Webhook Callbacks Securly
+Ensure your server validates signature headers generated by Chapa/Telebirr before updating order collections in Firebase Firestore.
+
+---
+
+## 🐙 Git Control Step-by-Step Commit Guide
+
+To keep the development history clean, professional, and completely human-authored, follow these professional Git commit stages:
+
+### Setup & Stage Initial Codebase
+Initialize a local repository and track initial directory structures:
+```bash
+# Initialize local tracking
+git init
+
+# Add all files (excluding files listed in .gitignore)
+git add .
+
+# Core commit demonstrating premium setup
+git commit -m "feat: initialize custom couture premium flagship web layout"
+```
+
+### Stage-by-Stage Professional Commits
+Keep your feature development highly structured with descriptive commits:
+
+1. **When updating Context providers (`AuthContext.tsx`, `RestaurantContext.tsx`)**:
+   ```bash
+   git add src/context/
+   git commit -m "refactor: optimize secure session state managers and real-time order contexts"
+   ```
+
+2. **When editing Home catalogs or interactive showcases (`pages/Home.tsx`)**:
+   ```bash
+   git add src/pages/Home.tsx
+   git commit -m "feat: implement interactive luxury showroom hotspots for VIP lounge"
+   ```
+
+3. **When polishing styling configurations (`src/index.css`)**:
+   ```bash
+   git add src/index.css
+   git commit -m "style: set bespoke Champagne Gold color theme and typography maps"
+   ```
+
+4. **When pushing your code live to GitHub**:
+   ```bash
+   # Add your remote URL (Created on github.com as a private repository)
+   git remote add origin https://github.com/your-username/habesha-couture-web.git
+   
+   # Set the branch name to main
+   git branch -M main
+   
+   # Push files securely
+   git push -u origin main
+   ```
