@@ -1,0 +1,8 @@
+{
+  "name": "Habesha Fashion Commerce",
+  "description": "Enterprise-grade luxury Habesha fashion e-commerce platform with dynamic catalogs, analytics, wishlist, and integrated payment processors like Telebirr, CBE Birr, Chapa, and Cash on Delivery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

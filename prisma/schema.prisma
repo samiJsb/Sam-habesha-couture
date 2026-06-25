@@ -1,0 +1,299 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  STAFF
+  CUSTOMER
+}
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  READY_FOR_PICKUP
+  OUT_FOR_DELIVERY
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  TELEBIRR
+  CBE_BIRR
+  CHAPA
+  CASH_ON_DELIVERY
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum DeliveryType {
+  DELIVERY
+  PICKUP
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  DECLINED
+  COMPLETED
+}
+
+enum InventoryStatus {
+  IN_STOCK
+  LOW_STOCK
+  OUT_OF_STOCK
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  passwordHash  String?
+  phoneNumber   String?
+  role          Role           @default(CUSTOMER)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  
+  // Relations
+  orders        Order[]
+  reservations  Reservation[]
+  reviews       Review[]
+  auditLogs     AuditLog[]
+  notifications Notification[]
+
+  @@index([email])
+}
+
+model Tenant {
+  id          String   @id @default(uuid())
+  name        String   // e.g., "Addis Lounge", "Kidus Cafe"
+  slug        String   @unique
+  address     String
+  phoneNumber String
+  logoUrl     String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  menuItems     MenuItem[]
+  orders        Order[]
+  reservations  Reservation[]
+  inventory     InventoryItem[]
+}
+
+model Category {
+  id          String     @id @default(uuid())
+  name        String     @unique // e.g., "Traditional Wot", "Boona (Coffee)", "Tibseh", "Pastry"
+  slug        String     @unique
+  description String?
+  menuItems   MenuItem[]
+  createdAt   DateTime   @default(now())
+}
+
+model MenuItem {
+  id                   String     @id @default(uuid())
+  tenantId             String
+  categoryId           String
+  name                 String
+  description          String
+  price                Float      // ETB
+  image                String?
+  rating               Float      @default(5.0)
+  preparationTime      Int        @default(15) // minutes
+  spicyLevel           Int?       @default(0)  // 0 to 3 scale for traditional stews
+  isAvailable          Boolean    @default(true)
+  isPopular            Boolean    @default(false)
+  isChefRecommendation Boolean    @default(false)
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+
+  // Relations
+  tenant      Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  category    Category    @relation(fields: [categoryId], references: [id])
+  orderItems  OrderItem[]
+  reviews     Review[]
+
+  @@index([tenantId])
+  @@index([categoryId])
+}
+
+model Order {
+  id             String        @id @default(uuid())
+  customerId     String?
+  tenantId       String
+  customerName   String
+  customerEmail  String
+  customerPhone  String
+  subtotal       Float
+  tax            Float
+  deliveryFee    Float
+  total          Float
+  status         OrderStatus   @default(PENDING)
+  paymentMethod  PaymentMethod
+  paymentStatus  PaymentStatus @default(PENDING)
+  deliveryType   DeliveryType  @default(PICKUP)
+  deliveryAddress String?
+  couponCode     String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  // Relations
+  customer    User?        @relation(fields: [customerId], references: [id])
+  tenant      Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  items       OrderItem[]
+  payment     Payment?
+  auditLogs   AuditLog[]
+
+  @@index([customerId])
+  @@index([tenantId])
+}
+
+model OrderItem {
+  id         String   @id @default(uuid())
+  orderId    String
+  menuItemId String
+  name       String
+  quantity   Int
+  price      Float    // Price at purchase time
+  createdAt  DateTime @default(now())
+
+  // Relations
+  order    Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menuItem MenuItem  @relation(fields: [menuItemId], references: [id])
+
+  @@index([orderId])
+  @@index([menuItemId])
+}
+
+model Reservation {
+  id             String            @id @default(uuid())
+  customerId     String?
+  tenantId       String
+  name           String
+  email          String
+  phone          String
+  date           DateTime
+  time           String            // HH:MM format
+  guestsCount    Int
+  occasion       String?
+  specialRequests String?
+  status         ReservationStatus @default(PENDING)
+  tableNumber    Int?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  // Relations
+  customer User?  @relation(fields: [customerId], references: [id])
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+  @@index([tenantId])
+}
+
+model Payment {
+  id             String        @id @default(uuid())
+  orderId        String        @unique
+  method         PaymentMethod
+  status         PaymentStatus @default(PENDING)
+  amount         Float
+  currency       String        @default("ETB")
+  transactionRef String        @unique
+  payerDetails   String?       // JSON string containing payer wallet or number
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  // Relations
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  customerId String
+  menuItemId String
+  rating     Int      @default(5)
+  comment    String
+  createdAt  DateTime @default(now())
+
+  // Relations
+  customer User     @relation(fields: [customerId], references: [id])
+  menuItem MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+  @@index([menuItemId])
+}
+
+model Coupon {
+  code           String       @id
+  discountType   DiscountType
+  value          Float
+  minOrderValue  Float?
+  isActive       Boolean      @default(true)
+  expiresAt      DateTime
+  createdAt      DateTime     @default(now())
+}
+
+model InventoryItem {
+  id        String          @id @default(uuid())
+  tenantId  String
+  name      String
+  quantity  Float
+  unit      String          //.kg, liters, boxes
+  threshold Float
+  status    InventoryStatus @default(IN_STOCK)
+  updatedAt DateTime        @updatedAt
+
+  // Relations
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  orderId    String?
+  action     String   // e.g., "ORDER_REJECTED", "PRICE_MODIFIED"
+  details    String
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  // Relations
+  user  User?  @relation(fields: [userId], references: [id])
+  order Order? @relation(fields: [orderId], references: [id])
+
+  @@index([userId])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
